@@ -1,0 +1,18 @@
+﻿@*
+*@
+
+@model ProductModel
+@{
+    var product = ViewData["product"] as ProductModel;
+    var product2 = ViewBag.product as ProductModel;
+}
+
+
+<div class="card bg-danger text-white">
+    <h1 class="card-header"> @product2.Name</h1>
+    <div class="card-body">
+        <p class="card-text">
+            Giá: @product2.Price
+        </p>
+    </div>
+</div>
