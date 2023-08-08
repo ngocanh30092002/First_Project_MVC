@@ -1,5 +1,9 @@
-﻿using FirstProject.Services;
+﻿using FirstProject.ExtendMethods;
+using FirstProject.Services;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Routing.Constraints;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +19,8 @@ builder.Services.Configure<RazorViewEngineOptions>(options =>
 });
 
 builder.Services.AddSingleton<ProductService>();
+builder.Services.AddSingleton<PlanetService>();
+
 //builder.Services.AddSingleton(typeof(ProductService));
 var app = builder.Build();
 
@@ -29,12 +35,52 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.UseStatusCodePageWithCustomer();
+
 app.UseRouting();
+
+app.UseEndpoints(endpoints =>
+{
+    //endpoints.MapControllers();
+    //endpoints.MapControllerRoute();
+    //endpoints.MapDefaultControllerRoute();
+    //endpoints.MapAreaControllerRoute();
+
+
+
+    //[AcceptVerbs("POST")] -- Attribute cho Action ( chỉ cho phép truy cập nếu là pthuc POST)
+
+    //[Route]
+    //[HttpGet]
+    //[HttpPost]
+    app.MapControllerRoute(
+        name: "first",
+        pattern: "{url:regex(^((xemsanpham)|(viewproduct))$)}/{id?}",
+        defaults: new
+        {
+            controller = "First",
+            action = "ViewProduct"
+        },
+        constraints: new
+        {
+            //url = new StringRouteConstraint("xemsanpham"),
+            id = new RangeRouteConstraint(2, 4)
+        }
+    ) ;
+    endpoints.MapAreaControllerRoute(
+        name: "product",
+        pattern: "/{controller}/{action=Index}/{id?}",
+        areaName: "ProductManage");
+    // Controller không có Area
+    app.MapControllerRoute(
+        name: "default",
+        pattern: "/{controller=Home}/{action=Index}/{id?}"
+    );
+
+    
+});
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

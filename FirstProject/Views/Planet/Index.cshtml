@@ -1,0 +1,19 @@
+﻿@inject FirstProject.Services.PlanetService _planetService;
+
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Planets";
+}
+
+
+<h1>Các hành tinh trong hệ mặt trời</h1>
+
+<div class="list-group">
+    @foreach (var planet in _planetService)
+    {
+        <a asp-action="@planet.Name" class="list-group-item list-group-item-action">
+            @planet.Name - @planet.VnName 
+        </a>
+    }
+</div>
