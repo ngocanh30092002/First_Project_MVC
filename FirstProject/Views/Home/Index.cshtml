@@ -8,3 +8,23 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+<p>
+    @Url.RouteUrl("default", new {action = "HelloView", controller = "Home"}) 
+
+    Url.Link()
+</p>
+
+<p>
+    @Url.RouteUrl("Uranus1")
+</p>
+
+@{
+    var routeData = new Dictionary<string, string>()
+    {
+        {"name", "ngocanh"},
+        {"id", "1"},
+    };
+}
+
+<a asp-action="Index" asp-controller="Home" asp-all-route-data="routeData">hehe</a>
