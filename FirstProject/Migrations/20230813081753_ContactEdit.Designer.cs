@@ -4,6 +4,7 @@ using FirstProject.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FirstProject.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230813081753_ContactEdit")]
+    partial class ContactEdit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,8 +46,8 @@ namespace FirstProject.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar");
 
-                    b.Property<string>("Message")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("Message")
+                        .HasColumnType("int");
 
                     b.Property<string>("PhoneNumber")
                         .HasMaxLength(50)
