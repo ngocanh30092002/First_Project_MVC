@@ -1,14 +1,22 @@
 ﻿using FirstProject.ExtendMethods;
+using FirstProject.Models;
 using FirstProject.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Routing.Constraints;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("AppMVC");
+    options.UseSqlServer(connectionString);
+});
 
 builder.Services.Configure<RazorViewEngineOptions>(options =>
 {
@@ -71,6 +79,7 @@ app.UseEndpoints(endpoints =>
         name: "product",
         pattern: "/{controller}/{action=Index}/{id?}",
         areaName: "ProductManage");
+
     // Controller không có Area
     app.MapControllerRoute(
         name: "default",
