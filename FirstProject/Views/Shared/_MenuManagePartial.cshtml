@@ -1,0 +1,18 @@
+﻿<div class="dropdown" id="divDropDown" style="margin-right: 50px">
+    <a class="btn  btn-outline-danger dropdown-toggle" href="#" id="managedropdownmenu" style=" text-align:left" data-toggle="dropdown">Manage</a>
+
+    <div class="dropdown-menu " id="menuParital" aria-labelledby="managedropdownmenu">
+        <a class="dropdown-item" asp-action="Index" asp-controller="DbManage" asp-area="Database">
+            Database
+        </a>
+    </div>
+</div>
+
+<style>
+    #divDropDown:hover #menuParital {
+        display:block;
+        width: 150px;
+        min-width:unset;
+    }
+
+</style>

@@ -1,0 +1,69 @@
+﻿@using Microsoft.EntityFrameworkCore;
+@using System.Data;
+
+@inject AppDbContext dbContext
+
+@{
+    ViewData["Title"] = "Database infor";
+    var connection = dbContext.Database.GetDbConnection();
+
+    var dbName = connection.Database;
+
+    var canConnect = dbContext.Database.CanConnect();
+}
+
+<partial name="_AlertMessage" />
+
+<h1>Đây là trang Database Manage</h1>
+
+<h2>Thông tin:</h2>
+<p>- Database: @dbName</p>
+<p>- Source: @connection.DataSource</p>
+<p>- Database: @connection.State</p>
+
+<h3>Pending Migratios: </h3>
+
+@foreach (var migration in dbContext.Database.GetPendingMigrations())
+{
+    <p>@migration</p>
+}
+
+@if (dbContext.Database.GetPendingMigrations().Any())
+{
+    <form method="post">
+        <button type="submit" class="btn btn-success" asp-action="Migrate">Tạo Db (Update Migrations)</button>
+    </form>
+}
+<hr />
+
+<h3>Applied Migratios: </h3>
+@foreach (var migration in dbContext.Database.GetAppliedMigrations())
+{
+    <p>@migration</p>
+}
+
+
+
+
+@if (!canConnect)
+{
+    <p class="alert alert-danger"> Không thể kết nối tới Database</p>
+}
+else
+{
+    <h2>Các table</h2>
+
+    await dbContext.Database.OpenConnectionAsync();
+    var table = dbContext.Database.GetDbConnection().GetSchema("Tables");
+
+    <ul>
+        @foreach (DataRow row in table.Rows)
+        {
+            <li>@row["TABLE_NAME"]</li>
+        }
+    </ul>
+
+    <a class="btn btn-danger" asp-action="DeleteDb"> Xóa database: @dbName</a>
+}
+
+
