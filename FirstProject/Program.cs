@@ -2,6 +2,7 @@
 using FirstProject.Models;
 using FirstProject.Services;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Routing.Constraints;
@@ -9,27 +10,8 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Register();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-{
-    var connectionString = builder.Configuration.GetConnectionString("AppMVC");
-    options.UseSqlServer(connectionString);
-});
-
-builder.Services.Configure<RazorViewEngineOptions>(options =>
-{
-    // Mặc định sẽ tìm trong thư mục View/Controller/Action.cshtml
-    // Thêm việc đọc trong thư mục MyView/Controller/Action.cshtml
-    //{0} - Action {1} - Controller {2} - Ten Area
-    options.ViewLocationFormats.Add("/MyView/{1}/{0}" + RazorViewEngine.ViewExtension);
-});
-
-builder.Services.AddSingleton<ProductService>();
-builder.Services.AddSingleton<PlanetService>();
-
-//builder.Services.AddSingleton(typeof(ProductService));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -46,6 +28,9 @@ app.UseStaticFiles();
 app.UseStatusCodePageWithCustomer();
 
 app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
