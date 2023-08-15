@@ -1,4 +1,7 @@
-﻿using FirstProject.Models;
+﻿using App.Data;
+using App.Models;
+using App.Services;
+using FirstProject.Models;
 using FirstProject.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -13,6 +16,12 @@ namespace FirstProject.ExtendMethods
     {
         public static void Register(this WebApplicationBuilder builder)
         {
+            builder.Services.AddOptions();
+            var mailSetting = builder.Configuration.GetSection("MailSettings");
+            builder.Services.Configure<MailSettings>(mailSetting);
+            builder.Services.AddSingleton<IEmailSender, SendMailService>();
+
+            builder.Services.AddSingleton<IdentityErrorDescriber, AppIdentityErrorDescriber>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -121,6 +130,12 @@ namespace FirstProject.ExtendMethods
                     //    "Gia tri 1",
                     //    "Gia Tri 2"
                     //});
+                });
+
+                options.AddPolicy("ViewManageMenu", policyBuilder =>
+                {
+                    policyBuilder.RequireAuthenticatedUser();
+                    policyBuilder.RequireRole(RoleName.Administrator);
                 });
             });
         }

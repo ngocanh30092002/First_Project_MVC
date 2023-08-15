@@ -1,4 +1,5 @@
-﻿using FirstProject.Models.Contacts;
+﻿using App.Models;
+using FirstProject.Models.Contacts;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
