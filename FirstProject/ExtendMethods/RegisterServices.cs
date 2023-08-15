@@ -60,7 +60,7 @@ namespace FirstProject.ExtendMethods
                     var googleConfig = builder.Configuration.GetSection("Authentication:Google");
                     googleOption.ClientId = googleConfig["ClientId"] ?? "";
                     googleOption.ClientSecret = googleConfig["ClientSecret"] ?? "";
-                    googleOption.CallbackPath = "/dang-nhap-tu-google"; // Nếu kh thiết lập thì sẽ mặc định là https://localhost:7227/signin-google
+                    googleOption.CallbackPath = "/signin-google"; // Nếu kh thiết lập thì sẽ mặc định là https://localhost:7227/signin-google
                 })
                 .AddFacebook(
                 facebookOptions =>
