@@ -9,8 +9,8 @@
     "gulp-sass": "^5.1.0",
     "gulp-uglify": "^3.0.2",
     "node-sass": "^9.0.0",
-    "postcss": "^8.4.27",
+    "postcss": "^8.4.28",
     "rimraf": "^5.0.1",
-    "sass": "^1.65.1"
+    "sass": "^1.66.1"
   }
 }

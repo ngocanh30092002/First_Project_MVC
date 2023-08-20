@@ -1,4 +1,5 @@
 ﻿using App.Models;
+using FirstProject.Models.Blog;
 using FirstProject.Models.Contacts;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +8,7 @@ namespace FirstProject.Models
 {
     public class AppDbContext : IdentityDbContext<AppUser>
     {
-        public DbSet<Contact> Contacts { get; set; }
+       
         public  AppDbContext(DbContextOptions<AppDbContext> options) :base(options) { } 
         
 
@@ -30,6 +31,14 @@ namespace FirstProject.Models
                     entityType.SetTableName(tableName.Substring(6));
                 }
             }
+
+            modelBuilder.Entity<Category>(entity =>
+            {
+                entity.HasIndex(c => c.Slug);
+            });
         }
+
+        public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Category> Categories { get; set; }
     }
 }

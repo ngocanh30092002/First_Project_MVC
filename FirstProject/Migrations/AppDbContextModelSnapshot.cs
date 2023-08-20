@@ -94,6 +94,40 @@ namespace FirstProject.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
+            modelBuilder.Entity("FirstProject.Models.Blog.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ParentCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentCategoryId");
+
+                    b.HasIndex("Slug");
+
+                    b.ToTable("Category");
+                });
+
             modelBuilder.Entity("FirstProject.Models.Contacts.Contact", b =>
                 {
                     b.Property<int>("Id")
@@ -260,6 +294,15 @@ namespace FirstProject.Migrations
                     b.ToTable("UserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("FirstProject.Models.Blog.Category", b =>
+                {
+                    b.HasOne("FirstProject.Models.Blog.Category", "ParentCategory")
+                        .WithMany("CategoryChildren")
+                        .HasForeignKey("ParentCategoryId");
+
+                    b.Navigation("ParentCategory");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -309,6 +352,11 @@ namespace FirstProject.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("FirstProject.Models.Blog.Category", b =>
+                {
+                    b.Navigation("CategoryChildren");
                 });
 #pragma warning restore 612, 618
         }

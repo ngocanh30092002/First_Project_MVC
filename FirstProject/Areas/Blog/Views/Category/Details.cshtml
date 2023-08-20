@@ -1,0 +1,30 @@
+﻿@model FirstProject.Models.Blog.Category
+
+@{
+    ViewData["Title"] = "Nội dung chuyên mục";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <h4>Chuyên mục</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Nội dung
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.Raw(Model.Content)
+        </dd>
+        <dt class = "col-sm-2">
+            Url
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Slug)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" class="btn btn-primary" asp-route-id="@Model?.Id">Chỉnh sửa</a> |
+    <a asp-action="Index" class="btn btn-primary">Danh sách chuyên mục</a>
+</div>

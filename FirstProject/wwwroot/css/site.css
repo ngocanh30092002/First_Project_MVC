@@ -43,6 +43,9 @@ body {
   color: white !important;
   background: red;
 }
+.app-navbar .dropdown .dropdown-right {
+  right: 0;
+}
 
 .contact-firstcol {
   background: #9854a0;
